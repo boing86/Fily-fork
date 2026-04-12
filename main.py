@@ -66,7 +66,15 @@ def _linux_is_dark() -> bool:
 def _apply_dark_palette(app: QApplication) -> None:
     """Apply a Fusion-based dark palette to the QApplication."""
     from PySide6.QtGui import QColor, QPalette
+    from PySide6.QtCore import Qt
     app.setStyle("Fusion")
+    # Qt 6.8+: explizit Dark-ColorScheme setzen, damit Fusion intern Dark-Mode
+    # verwendet — ohne dies ignoriert Qt 6.10 die manuelle Palette für eigene
+    # Widget-Rendering-Pfade (xdgdesktopportal setzt colorScheme asynchron).
+    try:
+        app.styleHints().setColorScheme(Qt.ColorScheme.Dark)
+    except AttributeError:
+        pass
     p = QPalette()
     dark   = QColor(45, 45, 45)
     mid    = QColor(65, 65, 65)
