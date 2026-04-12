@@ -174,6 +174,8 @@ Ergebnis:
 
 python -m venv .venv
 .venv\Scripts\activate
+# Falls die venv nicht geladen werden kann 
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 pip install -r requirements.txt
 
 # Build
