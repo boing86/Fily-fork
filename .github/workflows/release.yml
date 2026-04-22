@@ -119,16 +119,11 @@ jobs:
           mkdir -p pkg/usr/share/icons/hicolor/256x256/apps
           mkdir -p pkg/usr/local/bin
           cp dist/Fily pkg/opt/Fily/Fily
-          chmod +x pkg/opt/Fily/Fily
-          echo '#!/bin/bash' > pkg/usr/local/bin/fily
-          echo 'export TMPDIR="${HOME}/.cache/fily"' >> pkg/usr/local/bin/fily
-          echo 'mkdir -p "$TMPDIR"' >> pkg/usr/local/bin/fily
-          echo 'exec /opt/Fily/Fily "$@"' >> pkg/usr/local/bin/fily
-          chmod +x pkg/usr/local/bin/fily
-          sed 's|Exec=.*|Exec=/usr/local/bin/fily|' fily.desktop \
+          sed 's|Exec=.*|Exec=/opt/Fily/Fily|' fily.desktop \
             > pkg/usr/share/applications/fily.desktop
           cp assets/icons/linux/256x256.png \
             pkg/usr/share/icons/hicolor/256x256/apps/fily.png
+          ln -s /opt/Fily/Fily pkg/usr/local/bin/fily
 
       - name: .deb erstellen
         run: |
@@ -140,7 +135,6 @@ jobs:
             --maintainer "${{ github.repository_owner }}" \
             --category "utils" \
             --license "MIT" \
-            --deb-compression gz \
             -C pkg \
             opt usr
           mv $(ls fily*.deb | head -1) "Fily-${{ steps.ver.outputs.VERSION }}.deb"
