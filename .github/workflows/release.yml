@@ -276,6 +276,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   release:
     needs: [build-macos, build-linux, build-windows]
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Version aus Tag ermitteln
