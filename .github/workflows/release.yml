@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '*'
+  #
   workflow_dispatch:
     inputs:
       version:
@@ -27,7 +28,12 @@ jobs:
 
       - name: Version aus Tag ermitteln
         id: ver
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Python einrichten
         uses: actions/setup-python@v5
@@ -71,7 +77,12 @@ jobs:
 
       - name: Version aus Tag ermitteln
         id: ver
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Python einrichten
         uses: actions/setup-python@v5
@@ -172,7 +183,12 @@ jobs:
       - name: Version aus Tag ermitteln
         id: ver
         shell: bash
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Python einrichten
         uses: actions/setup-python@v5
@@ -264,7 +280,12 @@ jobs:
     steps:
       - name: Version aus Tag ermitteln
         id: ver
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Alle Artefakte herunterladen
         uses: actions/download-artifact@v4
