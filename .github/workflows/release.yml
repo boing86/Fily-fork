@@ -4,7 +4,12 @@ on:
   push:
     tags:
       - '*'
-
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (z.B. 2.0.8)'
+        required: true
+        default: '0.0.0-test'
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
