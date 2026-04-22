@@ -119,11 +119,16 @@ jobs:
           mkdir -p pkg/usr/share/icons/hicolor/256x256/apps
           mkdir -p pkg/usr/local/bin
           cp dist/Fily pkg/opt/Fily/Fily
-          sed 's|Exec=.*|Exec=/opt/Fily/Fily|' fily.desktop \
+          chmod +x pkg/opt/Fily/Fily
+          echo '#!/bin/bash' > pkg/usr/local/bin/fily
+          echo 'export TMPDIR="${HOME}/.cache/fily"' >> pkg/usr/local/bin/fily
+          echo 'mkdir -p "$TMPDIR"' >> pkg/usr/local/bin/fily
+          echo 'exec /opt/Fily/Fily "$@"' >> pkg/usr/local/bin/fily
+          chmod +x pkg/usr/local/bin/fily
+          sed 's|Exec=.*|Exec=/usr/local/bin/fily|' fily.desktop \
             > pkg/usr/share/applications/fily.desktop
           cp assets/icons/linux/256x256.png \
             pkg/usr/share/icons/hicolor/256x256/apps/fily.png
-          ln -s /opt/Fily/Fily pkg/usr/local/bin/fily
 
       - name: .deb erstellen
         run: |
