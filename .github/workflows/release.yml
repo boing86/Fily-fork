@@ -140,6 +140,7 @@ jobs:
             --maintainer "${{ github.repository_owner }}" \
             --category "utils" \
             --license "MIT" \
+            --deb-compression gz \
             -C pkg \
             opt usr
           mv $(ls fily*.deb | head -1) "Fily-${{ steps.ver.outputs.VERSION }}.deb"
