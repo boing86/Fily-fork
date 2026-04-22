@@ -46,6 +46,9 @@ jobs:
       - name: .app bauen
         run: pyinstaller fily_app.spec
 
+      - name: Ad-hoc Code-Signing (Gatekeeper macOS 15+)
+        run: codesign --force --deep --sign - dist/Fily.app
+
       - name: create-dmg installieren
         run: brew install create-dmg
 
